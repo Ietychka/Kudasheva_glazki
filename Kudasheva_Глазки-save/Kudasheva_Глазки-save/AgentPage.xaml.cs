@@ -175,10 +175,11 @@ namespace Kudasheva_Глазки_save
             {
                 currentAgent = currentAgent.Where(p => p.AgentTypeString == "ПАО").ToList();
             }
+            string searchText = TBoxSearch.Text.Replace("-", "").Replace("(", "").Replace(")", "").Replace(" ", "");
             currentAgent = currentAgent.Where(p =>
             p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) ||
             p.Email.ToLower().Contains(TBoxSearch.Text.ToLower()) ||
-            p.Phone.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+             p.Phone.Replace("-", "").Replace("(", "").Replace(")", "").Replace(" ", "").Contains(searchText)).ToList();
             AgentListView.ItemsSource = currentAgent;
             TableList = currentAgent;
             ChangePage(0, 0);
