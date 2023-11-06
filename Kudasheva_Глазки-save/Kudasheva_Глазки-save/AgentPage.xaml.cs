@@ -187,7 +187,7 @@ namespace Kudasheva_Глазки_save
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate( new AddEditPage());
+            Manager.MainFrame.Navigate( new AddEditPage(null));
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -219,6 +219,24 @@ namespace Kudasheva_Глазки_save
         {
             ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
         }
-    
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(Visibility == Visibility.Visible)
+            {
+                Kudasheva_glazkiEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                AgentListView.ItemsSource=Kudasheva_glazkiEntities.GetContext().Agent.ToList();
+            }
+        }
     }
 }
